@@ -37,7 +37,4 @@ fclean:	clean
 
 re:		fclean all
 
-tests_run:
-		./tester.sh
-
 .PHONY:	all clean fclean re
