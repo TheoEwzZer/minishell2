@@ -43,5 +43,6 @@ float
 maps
 modules.order
 my_segfault
+mysh
 tester.sh
 tests
