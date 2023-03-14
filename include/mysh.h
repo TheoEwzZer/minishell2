@@ -34,6 +34,7 @@ typedef struct var {
     pid_t pid;
 } var_t;
 
+char **create_str(var_t *var);
 char **my_strdup_double(char **src, char *env_to_set);
 char **replace_cwd(char *new_cwd, var_t *var);
 char *create_new_cwd(char *cwd, var_t *var);
@@ -60,6 +61,7 @@ void create_cmd(var_t *var, char **str);
 void found_home_and_path(var_t *var);
 void free_env(var_t *var);
 void free_var(var_t *var);
+void get_input(var_t *var);
 void handle_errors(int status, var_t *var);
 void handle_errors_cd(char **str, var_t *var);
 void parsing_path(var_t *var);
