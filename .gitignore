@@ -39,7 +39,7 @@
 Mkfile.old
 Module.symvers
 dkms.conf
-float
+my_divzero
 maps
 modules.order
 my_segfault
