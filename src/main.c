@@ -64,7 +64,7 @@ void create_cmd(var_t *var, char **str)
 
 void cmd_mouli(var_t *var)
 {
-    char **str = my_str_to_word_array(var->input);
+    char **str = create_str(var);
     if (!str[0])
         return;
     if (check_command_not_found(str, var))
@@ -88,24 +88,21 @@ void cmd_mouli(var_t *var)
 
 int main(int argc, char **argv, char **env)
 {
-    check_arg(argc, argv);
     var_t *var = malloc(sizeof(var_t));
-    var->return_value = 0, var->modify_env = false;
+
+    check_arg(argc, argv);
+    var->return_value = 0;
+    var->modify_env = false;
     var->env = env;
     var->old_cwd = my_strdup(getcwd(NULL, 0));
     var->actu_path = NULL;
     found_home_and_path(var);
     var->cwd = my_strdup(getcwd(NULL, 0));
     if (!isatty(STDIN_FILENO)) {
-        var->input = NULL;
-        size_t len = 0;
-        while (getline(&var->input, &len, stdin) != -1) {
-            cmd_mouli(var);
-            free(var->input);
-            var->input = NULL;
-        }
+        get_input(var);
     } else {
         while (42)
             wait_cmd(env, var);
-    } return var->return_value;
+    }
+    return var->return_value;
 }
