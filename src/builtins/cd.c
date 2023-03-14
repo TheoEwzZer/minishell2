@@ -7,7 +7,7 @@
 
 #include "mysh.h"
 
-char *create_new_cwd(char *cwd, var_t *var)
+char *create_new_cwd(char *cwd)
 {
     char *new_cwd = NULL;
     unsigned int len = my_strlen(cwd) + 5;
@@ -59,6 +59,7 @@ char **replace_cwd(char *new_cwd, var_t *var)
 void builtin_cd(char **str, var_t *var)
 {
     int status = 0;
+    char *cwd = 0;
 
     if (!var->pid) {
         status = execve(var->cmd, str, var->env);
@@ -71,8 +72,8 @@ void builtin_cd(char **str, var_t *var)
     wait(&status);
     handle_errors(status, var);
     if (str[1])
-        handle_errors_cd(str, var);
+        handle_errors_cd(str);
     change_cwd(str, var);
-    char *cwd = getcwd(NULL, 0);
-    var->env = replace_cwd(create_new_cwd(cwd, var), var);
+    cwd = getcwd(NULL, 0);
+    var->env = replace_cwd(create_new_cwd(cwd), var);
 }

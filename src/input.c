@@ -27,8 +27,9 @@ char **create_str(var_t *var)
 void get_input(var_t *var)
 {
     char *saveptr1;
-    var->input = NULL;
     size_t len = 0;
+
+    var->input = NULL;
     while (getline(&var->input, &len, stdin) != -1) {
         char *strToken = strtok_r(var->input, ";", &saveptr1);
         while (strToken) {

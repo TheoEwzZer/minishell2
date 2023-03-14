@@ -70,11 +70,12 @@ void wait_cmd2(unsigned int len_cmd, char **str, var_t *var)
 void wait_cmd(char **env, var_t *var)
 {
     char **str = NULL;
-    var->cmd = NULL;
     unsigned int len_cmd = 0;
+    size_t len = 0;
 
+    var->cmd = NULL;
     write(1, "$> ", 3);
-    var->input = NULL; size_t len = 0;
+    var->input = NULL;
     if (getline(&var->input, &len, stdin) == -1)
         exit(1);
     if (my_strlen(var->input) <= 1) {

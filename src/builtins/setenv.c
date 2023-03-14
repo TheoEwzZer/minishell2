@@ -21,7 +21,7 @@ char **my_strdup_double(char **src, char *env_to_set)
     return str;
 }
 
-char *create_new_env(char **str, var_t *var)
+char *create_new_env(char **str)
 {
     char *new_env = NULL;
     unsigned int len = 0;
@@ -81,7 +81,7 @@ void builtin_setenv(char **str, var_t *var)
     if (handle_errors_setenv(str, var) == 84)
         return;
     var->modify_env = true;
-    new_env = create_new_env(str, var);
+    new_env = create_new_env(str);
     for (int i = 0; var->env[i]; i++) {
         if (!my_strncmp(var->env[i], new_env, my_strlen(str[1]) + 1)) {
             var->env[i] = new_env; found = true;

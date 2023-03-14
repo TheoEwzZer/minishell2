@@ -23,7 +23,7 @@ int check_command_not_found(char **str, var_t *var)
     return 0;
 }
 
-void check_arg(int argc, char **argv)
+void check_arg(int argc)
 {
     if (argc != 1)
         exit(1);

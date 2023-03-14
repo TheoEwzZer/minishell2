@@ -10,6 +10,7 @@
 void builtin_env(char **str, var_t *var)
 {
     int status = 0;
+    unsigned int len_cmd = 0;
     if (!var->pid) {
         status = execve(var->cmd, str, var->env);
         exit(0);
@@ -17,7 +18,7 @@ void builtin_env(char **str, var_t *var)
     wait(&status);
     if (str[1]) {
         free(var->cmd);
-        unsigned int len_cmd = my_strlen(str[1]) + 6;
+        len_cmd = my_strlen(str[1]) + 6;
         var->cmd = malloc(sizeof(char) * my_strlen(str[1]) + 6);
         for (unsigned int i = 0; i < len_cmd; var->cmd[i] = '\0', i++);
         var->cmd = my_strcat(var->cmd, "/bin/");

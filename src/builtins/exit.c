@@ -29,12 +29,13 @@ int starts_with_digit_and_has_alnum(char *str)
 
 void builtin_exit2(char **str, var_t *var)
 {
+    int exit_status = my_getnbr(str[1]);
+
     if (starts_with_digit_and_has_alnum(str[1])) {
         write(2, "exit: Badly formed number.\n", 27);
         free_var(var);
         exit(1);
     }
-    int exit_status = my_getnbr(str[1]);
     if (!str[2] && (exit_status || !my_strcmp(str[1], "0"))) {
         if (isatty(STDIN_FILENO))
             write(1, "exit\n", 5);
