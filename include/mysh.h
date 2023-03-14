@@ -10,15 +10,17 @@
     #define MYSH_H_
 
     #include "my.h"
+    #include <errno.h>
+    #include <fcntl.h>
     #include <signal.h>
     #include <stdbool.h>
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
     #include <sys/stat.h>
+    #include <sys/types.h>
     #include <sys/wait.h>
     #include <unistd.h>
-    #include <errno.h>
 
 typedef struct var {
     bool modify_env;
@@ -26,7 +28,7 @@ typedef struct var {
     char *actu_path;
     char *cmd;
     char *cwd;
-    char *home;
+    const char *home;
     char *input;
     char *old_cwd;
     char *path;
@@ -37,8 +39,8 @@ typedef struct var {
 char **create_str(var_t *var);
 char **my_strdup_double(char **src, char *env_to_set);
 char **replace_cwd(char *new_cwd, var_t *var);
-char *create_new_cwd(char *cwd, var_t *var);
-char *create_new_env(char **str, var_t *var);
+char *create_new_cwd(char *cwd);
+char *create_new_env(char **str);
 int check_command_not_found(char **str, var_t *var);
 int handle_errors_setenv(char **str, var_t *var);
 int isalphanum(char *str);
@@ -52,7 +54,7 @@ void builtin_setenv(char **str, var_t *var);
 void builtin_unsetenv(char **str, var_t *var);
 void change_cwd(char **str, var_t *var);
 void check(char **str, var_t *var);
-void check_arg(int argc, char **argv);
+void check_arg(int argc);
 void check_not_found_and_close(char **str, var_t *var);
 void choose_cmd(char **str, var_t *var);
 void choose_cmd_mouli(char **str, var_t *var);
@@ -63,7 +65,7 @@ void free_env(var_t *var);
 void free_var(var_t *var);
 void get_input(var_t *var);
 void handle_errors(int status, var_t *var);
-void handle_errors_cd(char **str, var_t *var);
+void handle_errors_cd(char **str);
 void parsing_path(var_t *var);
 void remove_env(char **str, unsigned int j, var_t *var);
 void try_path(char **str, var_t *var);

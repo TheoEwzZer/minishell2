@@ -10,14 +10,46 @@
 void check_not_found_and_close(char **str, var_t *var)
 {
     int status = 0;
-
+    bool redirect = false;
+    bool overwrite = false;
+    int fd = 0;
+    int saved_stdout = 0;
     if (!var->pid) {
+        if (str[1] && (!my_strcmp(str[1], ">") || !my_strcmp(str[1], ">>"))) {
+            redirect = true;
+            if (!my_strcmp(str[1], ">"))
+                overwrite = true;
+            if (!str[2]) {
+                write(2, "Missing name for redirect.\n", 27);
+                var->return_value = 1;
+                exit(1);
+            }
+            if (access(str[2], F_OK) == 0 && access(str[2], W_OK) == -1) {
+                write(2, str[2], my_strlen(str[2]));
+                write(2, ": Permission denied.\n", 21);
+                var->return_value = 1;
+                exit(1);
+            }
+            str[1] = NULL;
+        }
+        if (redirect) {
+            if (overwrite)
+                fd = open(str[2], O_CREAT | O_WRONLY | O_TRUNC);
+            else
+                fd = open(str[2], O_CREAT | O_WRONLY | O_APPEND);
+            saved_stdout = dup(STDOUT_FILENO);
+            dup2(fd, STDOUT_FILENO);
+        }
         if ((status = execve(var->cmd, str, var->env)) == -1)
             try_path(str, var);
-    } else {
-        waitpid(var->pid, &status, 0);
-        handle_errors(status, var);
+        else if (redirect) {
+            dup2(saved_stdout, STDOUT_FILENO);
+            close(fd);
+        }
+        exit(0);
     }
+    waitpid(var->pid, &status, 0);
+    handle_errors(status, var);
 }
 
 void choose_cmd_mouli(char **str, var_t *var)
@@ -41,7 +73,10 @@ void choose_cmd_mouli(char **str, var_t *var)
     if (!my_strcmp(str[0], "env")) {
         builtin_env(str, var);
         return;
-    } check_not_found_and_close(str, var);
+    }
+    if (!my_strcmp(str[0], ">") || !my_strcmp(str[0], ">>"))
+        return;
+    check_not_found_and_close(str, var);
 }
 
 void create_cmd(var_t *var, char **str)
@@ -90,7 +125,7 @@ int main(int argc, char **argv, char **env)
 {
     var_t *var = malloc(sizeof(var_t));
 
-    check_arg(argc, argv);
+    check_arg(argc);
     var->return_value = 0;
     var->modify_env = false;
     var->env = env;
