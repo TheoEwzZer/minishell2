@@ -72,7 +72,6 @@ void wait_cmd(char **env, var_t *var)
     char **str = NULL;
     unsigned int len_cmd = 0;
     size_t len = 0;
-
     var->cmd = NULL;
     write(1, "$> ", 3);
     var->input = NULL;

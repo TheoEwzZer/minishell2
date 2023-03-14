@@ -24,16 +24,20 @@
 
 typedef struct var {
     bool modify_env;
+    bool redirect;
     char **env;
     char *actu_path;
     char *cmd;
     char *cwd;
-    const char *home;
     char *input;
     char *old_cwd;
     char *path;
+    const char *home;
+    int fd;
     int return_value;
+    int saved_stdout;
     pid_t pid;
+    unsigned int indice;
 } var_t;
 
 char **create_str(var_t *var);
@@ -46,6 +50,7 @@ int handle_errors_setenv(char **str, var_t *var);
 int isalphanum(char *str);
 int my_char_isalpha(char c);
 int starts_with_digit_and_has_alnum(char *str);
+unsigned int get_indice(char **str);
 void builtin_cd(char **str, var_t *var);
 void builtin_env(char **str, var_t *var);
 void builtin_exit(char **str, var_t *var);
@@ -60,13 +65,16 @@ void choose_cmd(char **str, var_t *var);
 void choose_cmd_mouli(char **str, var_t *var);
 void cmd_mouli(var_t *var);
 void create_cmd(var_t *var, char **str);
+void env_redirection(char **str, var_t *var);
 void found_home_and_path(var_t *var);
 void free_env(var_t *var);
 void free_var(var_t *var);
 void get_input(var_t *var);
 void handle_errors(int status, var_t *var);
 void handle_errors_cd(char **str);
+void handle_redirection(char **str, var_t *var);
 void parsing_path(var_t *var);
+void redirection(char **str, var_t *var, bool redirect, bool overwrite);
 void remove_env(char **str, unsigned int j, var_t *var);
 void try_path(char **str, var_t *var);
 void wait_cmd(char **env, var_t *var);
