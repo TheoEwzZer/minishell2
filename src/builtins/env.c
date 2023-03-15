@@ -15,7 +15,7 @@ void builtin_env(char **str, var_t *var)
     if (!var->pid) {
         status = execve(var->cmd, str, var->env);
         exit(0);
-    } 
+    }
     wait(&status);
     if (str[1]) {
         env_redirection(str, var);
