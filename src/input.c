@@ -26,16 +26,17 @@ char **create_str(var_t *var)
 
 void get_input(var_t *var)
 {
-    char *saveptr1;
+    char *saveptr1 = NULL;
+    char *str_token = NULL;
     size_t len = 0;
 
     var->input = NULL;
     while (getline(&var->input, &len, stdin) != -1) {
-        char *strToken = strtok_r(var->input, ";", &saveptr1);
-        while (strToken) {
-            var->input = strToken;
+        str_token = strtok_r(var->input, ";", &saveptr1);
+        while (str_token) {
+            var->input = str_token;
             cmd_mouli(var);
-            strToken = strtok_r(NULL, ";", &saveptr1);
+            str_token = strtok_r(NULL, ";", &saveptr1);
             var->input = NULL;
         }
         var->input = NULL;
