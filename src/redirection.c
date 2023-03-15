@@ -22,18 +22,19 @@ void redirection_output(char **str, var_t *var, bool overwrite)
 
 void redirection_input(char **str, var_t *var)
 {
+    unsigned int j = var->indice;
+
     if ((var->fd = open(str[var->indice + 1], O_RDONLY)) == -1) {
         var->return_value = 1;
         exit(1);
     }
     dup2(var->fd, STDIN_FILENO);
     close(var->fd);
-    if (str[var->indice + 2]) {
-        str[var->indice] = str[var->indice + 2];
-        str[var->indice + 1] = NULL;
-    } else {
-        str[var->indice] = NULL;
+    for (unsigned int i = var->indice + 2; str[i]; i++) {
+        str[j] = str[i];
+        j++;
     }
+    str[j] = NULL;
 }
 
 void env_redirection(char **str, var_t *var)
