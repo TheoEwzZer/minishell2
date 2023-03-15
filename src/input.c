@@ -34,7 +34,7 @@ void get_input(var_t *var)
     while (getline(&var->input, &len, stdin) != -1) {
         str_token = strtok_r(var->input, ";", &saveptr1);
         while (str_token) {
-            var->input = str_token;
+            var->input = split(str_token);
             cmd_mouli(var);
             str_token = strtok_r(NULL, ";", &saveptr1);
             var->input = NULL;
