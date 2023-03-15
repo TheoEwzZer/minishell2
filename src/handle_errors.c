@@ -87,7 +87,7 @@ void invalid_null_command(var_t *var)
     var->return_value = 1;
 }
 
-void check_error_outpout_redirection(char **str, var_t *var, bool *overwrite)
+void check_error_output_redirection(char **str, var_t *var, bool *overwrite)
 {
     struct stat st;
     *overwrite = my_strcmp(str[var->indice], ">") ? false : true;

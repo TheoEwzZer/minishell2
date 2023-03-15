@@ -13,7 +13,7 @@ void check_not_found_and_close(char **str, var_t *var)
 
     if (!var->pid) {
         handle_input_redirection(str, var);
-        handle_outpout_redirection(str, var);
+        handle_output_redirection(str, var);
         if ((status = execve(var->cmd, str, var->env)) == -1) {
             try_path(str, var);
             exit(0);

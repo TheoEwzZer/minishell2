@@ -7,7 +7,7 @@
 
 #include "mysh.h"
 
-void redirection_outpout(char **str, var_t *var, bool overwrite)
+void redirection_output(char **str, var_t *var, bool overwrite)
 {
     int oflag = O_CREAT | O_WRONLY;
 
@@ -33,7 +33,7 @@ void redirection_input(char **str, var_t *var)
 void env_redirection(char **str, var_t *var)
 {
     bool overwrite = false;
-    var->indice = get_indice_outpout(str);
+    var->indice = get_indice_output(str);
     if (!my_strcmp(str[var->indice], ">")
     || !my_strcmp(str[var->indice], ">>")) {
         if (!my_strcmp(str[var->indice], ">"))
@@ -51,17 +51,17 @@ void env_redirection(char **str, var_t *var)
             exit(1);
         }
     }
-    redirection_outpout(str, var, overwrite);
+    redirection_output(str, var, overwrite);
 }
 
-void handle_outpout_redirection(char **str, var_t *var)
+void handle_output_redirection(char **str, var_t *var)
 {
     bool overwrite = false;
 
-    var->indice = get_indice_outpout(str);
+    var->indice = get_indice_output(str);
     if (var->indice > 0) {
-        check_error_outpout_redirection(str, var, &overwrite);
-        redirection_outpout(str, var, overwrite);
+        check_error_output_redirection(str, var, &overwrite);
+        redirection_output(str, var, overwrite);
     }
 }
 

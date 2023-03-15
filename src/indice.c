@@ -7,7 +7,7 @@
 
 #include "mysh.h"
 
-unsigned int get_indice_outpout(char **str)
+unsigned int get_indice_output(char **str)
 {
     unsigned int indice = 0;
     for (unsigned int i = 1; str[i]; i++) {
