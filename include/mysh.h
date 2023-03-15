@@ -35,6 +35,7 @@ typedef struct var {
     const char *home;
     int fd;
     int return_value;
+    int save_fd;
     pid_t pid;
     unsigned int indice;
 } var_t;
