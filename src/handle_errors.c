@@ -77,3 +77,35 @@ void handle_errors_cd(char **str)
         exit(1);
     }
 }
+
+void invalid_null_command(var_t *var)
+{
+    if (!var->pid) {
+        write(2, "Invalid null command.\n", 22);
+        exit(1);
+    }
+    var->return_value = 1;
+}
+
+void check_error_outpout_redirection(char **str, var_t *var, bool *overwrite)
+{
+    struct stat st;
+    *overwrite = my_strcmp(str[var->indice], ">") ? false : true;
+    if (!str[var->indice + 1]) {
+        write(2, "Missing name for redirect.\n", 27);
+        var->return_value = 1; exit(1);
+    }
+    stat(str[var->indice + 1], &st);
+    if (!access(str[var->indice + 1], F_OK) && S_ISDIR(st.st_mode)) {
+        write(2, str[var->indice + 1], my_strlen(str[var->indice + 1]));
+        write(2, ": Is a directory.\n", 18);
+        var->return_value = 1; exit(1);
+    }
+    if (!access(str[var->indice + 1], F_OK)
+    && access(str[var->indice + 1], W_OK) == -1) {
+        write(2, str[var->indice + 1], my_strlen(str[var->indice + 1]));
+        write(2, ": Permission denied.\n", 21);
+        var->return_value = 1; exit(1);
+    }
+    str[var->indice] = NULL;
+}

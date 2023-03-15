@@ -10,18 +10,12 @@
 void check_not_found_and_close(char **str, var_t *var)
 {
     int status = 0;
-    bool redirect = false;
-    int fd = 0;
-    int saved_stdout = 0;
     if (!var->pid) {
-        handle_redirection(str, var);
+        handle_input_redirection(str, var);
+        handle_outpout_redirection(str, var);
         if ((status = execve(var->cmd, str, var->env)) == -1) {
             try_path(str, var);
             exit(0);
-        }
-        if (redirect) {
-            dup2(saved_stdout, STDOUT_FILENO);
-            close(fd);
         }
         exit(0);
     }
@@ -46,9 +40,11 @@ void choose_cmd_mouli(char **str, var_t *var)
     } if (!my_strcmp(str[0], "env")) {
         builtin_env(str, var);
         return;
-    } if (!my_strcmp(str[0], ">") || !my_strcmp(str[0], ">>"))
-        return;
-    check_not_found_and_close(str, var);
+    }
+    if (!my_strcmp(str[0], ">") || !my_strcmp(str[0], ">>")
+    || !my_strcmp(str[0], "<") || !my_strcmp(str[0], "<<")) {
+        invalid_null_command(var); return;
+    } check_not_found_and_close(str, var);
 }
 
 void create_cmd(var_t *var, char **str)

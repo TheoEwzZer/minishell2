@@ -23,8 +23,7 @@ void builtin_env(char **str, var_t *var)
         var->cmd = my_strcat(var->cmd, "/bin/");
         var->cmd = my_strcat(var->cmd, str[1]);
         str[1] = NULL;
-        if ((execve(var->cmd, str, var->env)) == -1 && var->redirect) {
-            dup2(var->saved_stdout, STDOUT_FILENO);
+        if ((execve(var->cmd, str, var->env)) == -1) {
             close(var->fd);
         }
     }
