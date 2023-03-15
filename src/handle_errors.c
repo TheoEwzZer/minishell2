@@ -78,13 +78,19 @@ void handle_errors_cd(char **str)
     }
 }
 
-void invalid_null_command(var_t *var)
+void begin_with_redirection(char **str, var_t *var)
 {
-    if (!var->pid) {
+    char *tmp = NULL;
+    if (!str[2] && !var->pid) {
         write(2, "Invalid null command.\n", 22);
+        var->return_value = 1;
         exit(1);
     }
-    var->return_value = 1;
+    tmp = str[2];
+    for (unsigned int i = 2; i > 0; i--) {
+        str[i] = str[i - 1];
+    }
+    str[0] = tmp;
 }
 
 void check_error_output_redirection(char **str, var_t *var, bool *overwrite)

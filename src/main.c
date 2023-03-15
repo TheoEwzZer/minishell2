@@ -43,9 +43,9 @@ void choose_cmd_mouli(char **str, var_t *var)
         return;
     }
     if (!my_strcmp(str[0], ">") || !my_strcmp(str[0], ">>")
-    || !my_strcmp(str[0], "<") || !my_strcmp(str[0], "<<")) {
-        invalid_null_command(var); return;
-    } check_not_found_and_close(str, var);
+    || !my_strcmp(str[0], "<") || !my_strcmp(str[0], "<<"))
+        begin_with_redirection(str, var);
+    check_not_found_and_close(str, var);
 }
 
 void create_cmd(var_t *var, char **str)
