@@ -28,6 +28,12 @@ void redirection_input(char **str, var_t *var)
     }
     dup2(var->fd, STDIN_FILENO);
     close(var->fd);
+    if (str[var->indice + 2]) {
+        str[var->indice] = str[var->indice + 2];
+        str[var->indice + 1] = NULL;
+    } else {
+        str[var->indice] = NULL;
+    }
 }
 
 void env_redirection(char **str, var_t *var)
@@ -84,7 +90,6 @@ void handle_input_redirection(char **str, var_t *var)
             write(2, ": Permission denied.\n", 21);
             var->return_value = 1; exit(1);
         }
-        str[var->indice] = NULL;
         redirection_input(str, var);
     }
 }
