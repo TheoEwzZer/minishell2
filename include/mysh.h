@@ -62,6 +62,8 @@ void builtin_setenv(char **str, var_t *var);
 void builtin_unsetenv(char **str, var_t *var);
 void change_cwd(char **str, var_t *var);
 void check(char **str, var_t *var);
+void check_ambiguous_input_redirection(char **str, var_t *var);
+void check_ambiguous_output_redirection(char **str, var_t *var);
 void check_arg(int argc);
 void check_error_output_redirection(char **str, var_t *var, bool *overwrite);
 void check_not_found_and_close(char **str, var_t *var);

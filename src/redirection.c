@@ -41,8 +41,8 @@ void env_redirection(char **str, var_t *var)
 {
     bool overwrite = false;
     var->indice = get_indice_output(str);
-    if (!my_strcmp(str[var->indice], ">")
-    || !my_strcmp(str[var->indice], ">>")) {
+    if (var->indice > 0) {
+        check_ambiguous_output_redirection(str, var);
         if (!my_strcmp(str[var->indice], ">"))
             overwrite = true;
         if (!str[var->indice + 1]) {
@@ -67,6 +67,7 @@ void handle_output_redirection(char **str, var_t *var)
 
     var->indice = get_indice_output(str);
     if (var->indice > 0) {
+        check_ambiguous_output_redirection(str, var);
         check_error_output_redirection(str, var, &overwrite);
         redirection_output(str, var, overwrite);
     }
@@ -76,6 +77,7 @@ void handle_input_redirection(char **str, var_t *var)
 {
     var->indice = get_indice_input(str);
     if (var->indice > 0) {
+        check_ambiguous_input_redirection(str, var);
         if (!str[var->indice + 1]) {
             write(2, "Missing name for redirection.\n", 30);
             var->return_value = 1; exit(1);
