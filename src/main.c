@@ -11,6 +11,7 @@ void check_not_found_and_close(char **str, var_t *var)
 {
     int status = 0;
 
+    begin_with_pipe(str, var);
     if (!var->pid) {
         handle_input_redirection(str, var);
         handle_output_redirection(str, var);
