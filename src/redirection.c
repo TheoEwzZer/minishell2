@@ -22,6 +22,7 @@ void redirection_output(char **str, var_t *var, bool overwrite)
 
 void redirection_input(char **str, var_t *var)
 {
+    unsigned int i = var->indice + 2;
     unsigned int j = var->indice;
 
     if ((var->fd = open(str[var->indice + 1], O_RDONLY)) == -1) {
@@ -30,7 +31,12 @@ void redirection_input(char **str, var_t *var)
     }
     dup2(var->fd, STDIN_FILENO);
     close(var->fd);
-    for (unsigned int i = var->indice + 2; str[i]; i++) {
+    if (str[var->indice + 2] && str[var->indice + 3]
+    && str[var->indice + 4] && !my_strcmp(str[var->indice + 2], ">"))
+        i = var->indice + 4;
+    else
+        i = var->indice + 2;
+    for (; str[i]; i++) {
         str[j] = str[i];
         j++;
     }
