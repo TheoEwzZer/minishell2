@@ -45,10 +45,10 @@ char *create_new_env(char **str)
     return new_env;
 }
 
-int isalphanum(char *str)
+bool isalphanum(char *str)
 {
     int space = 0;
-    for (int i = 0; str[i] && space < 2; i++) {
+    for (unsigned int i = 0; str[i] && space < 2; i++) {
         if (str[i] == ' ')
             space++;
         if (str[i] > 96 && str[i] < 123)
@@ -63,9 +63,9 @@ int isalphanum(char *str)
             continue;
         if (str[i] == '/')
             continue;
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 void builtin_setenv(char **str, var_t *var)
@@ -74,15 +74,15 @@ void builtin_setenv(char **str, var_t *var)
     char *new_env = NULL;
     int status = 0;
     if (!var->pid) {
-        status = execve(var->cmd, str, var->env); exit(0);
+        status = execve(var->cmd, str, var->env); exit(EXIT_SUCCESS);
     }
     wait(&status);
     handle_errors(status, var);
-    if (handle_errors_setenv(str, var) == 84)
+    if (handle_errors_setenv(str, var))
         return;
     var->modify_env = true;
     new_env = create_new_env(str);
-    for (int i = 0; var->env[i]; i++) {
+    for (unsigned int i = 0; var->env[i]; i++) {
         if (!my_strncmp(var->env[i], new_env, my_strlen(str[1]) + 1)) {
             var->env[i] = new_env; found = true;
             found_home_and_path(var);

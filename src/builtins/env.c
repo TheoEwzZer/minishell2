@@ -14,7 +14,7 @@ void builtin_env(char **str, var_t *var)
 
     if (!var->pid) {
         status = execve(var->cmd, str, var->env);
-        exit(0);
+        exit(EXIT_SUCCESS);
     }
     wait(&status);
     if (str[1]) {

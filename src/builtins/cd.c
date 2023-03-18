@@ -63,7 +63,7 @@ void builtin_cd(char **str, var_t *var)
 
     if (!var->pid) {
         status = execve(var->cmd, str, var->env);
-        exit(0);
+        exit(EXIT_SUCCESS);
     }
     if (str[1] && my_strcmp(str[1], "-")) {
         free(var->old_cwd);

@@ -17,8 +17,8 @@ int starts_with_digit_and_has_alnum(char *str)
     int has_letter = 0;
 
     if (!my_char_isnum(str[0]))
-        return 0;
-    for (int i = 1; str[i] != '\0'; i++) {
+        return EXIT_SUCCESS;
+    for (unsigned int i = 1; str[i]; i++) {
         if (!my_char_isalpha(str[i]) && !my_char_isnum(str[i]))
             continue;
         if (my_char_isalpha(str[i]))
@@ -34,7 +34,7 @@ void builtin_exit2(char **str, var_t *var)
     if (starts_with_digit_and_has_alnum(str[1])) {
         write(2, "exit: Badly formed number.\n", 27);
         free_var(var);
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     if (!str[2] && (exit_status || !my_strcmp(str[1], "0"))) {
         if (isatty(STDIN_FILENO))
@@ -44,7 +44,7 @@ void builtin_exit2(char **str, var_t *var)
     }
     write(1, "exit: Expression Syntax.\n", 25);
     free_var(var);
-    exit(1);
+    exit(EXIT_FAILURE);
 }
 
 void builtin_exit(char **str, var_t *var)
@@ -53,7 +53,7 @@ void builtin_exit(char **str, var_t *var)
 
     if (!var->pid) {
         status = execve(var->cmd, str, var->env);
-        exit(0);
+        exit(EXIT_SUCCESS);
     }
     wait(&status);
     chdir(var->cwd);
@@ -61,7 +61,7 @@ void builtin_exit(char **str, var_t *var)
         if (isatty(STDIN_FILENO))
             write(1, "exit\n", 5);
         free_var(var);
-        exit(0);
+        exit(EXIT_SUCCESS);
     }
     builtin_exit2(str, var);
 }

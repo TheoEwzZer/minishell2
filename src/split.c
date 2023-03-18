@@ -36,7 +36,7 @@ char *split(char *input)
     if (input[0] == '<' || input[0] == '>' || input[0] == '|') {
         new[j++] = input[i++]; new[j++] = ' ';
     }
-    while (input[i] != '\0')
+    while (input[i])
         split2(input, &i, &j, new);
     new[j] = '\0';
     return new;

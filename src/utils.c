@@ -7,7 +7,7 @@
 
 #include "mysh.h"
 
-int check_command_not_found(char **str, var_t *var)
+bool check_command_not_found(char **str, var_t *var)
 {
     if (str[0][0] != '/' && str[0][0] != '.' && !var->actu_path) {
         if (my_strcmp(str[0], "cd") &&
@@ -17,14 +17,14 @@ int check_command_not_found(char **str, var_t *var)
             my_strcmp(str[0], "unsetenv")) {
                 write(2, str[0], my_strlen(str[0]));
                 write(2, ": Command not found.\n", 21);
-                return 1;
+                return true;
         }
     }
-    return 0;
+    return false;
 }
 
 void check_arg(int argc)
 {
     if (argc != 1)
-        exit(1);
+        exit(EXIT_FAILURE);
 }
