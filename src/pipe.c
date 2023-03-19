@@ -73,10 +73,13 @@ bool handle_pipe(char **str, var_t *var)
     char **commands = NULL;
     int status = 0;
     pid_t pid2 = 0;
-
     var->pipedes = malloc(sizeof(int) * 2);
     var->indice = get_indice_pipe(str);
     if (var->indice > 0) {
+        if (!str[var->indice + 1]) {
+            write(2, "Invalid null command.\n", 22);
+            exit(EXIT_FAILURE);
+        }
         str[var->indice] = NULL;
         execute_first_command(str, var);
         commands = get_commands(var, str);
@@ -86,6 +89,5 @@ bool handle_pipe(char **str, var_t *var)
         close(var->pipedes[1]);
         waitpid(pid2, &status, 0);
         return true;
-    }
-    return false;
+    } return false;
 }
