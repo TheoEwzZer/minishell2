@@ -25,10 +25,8 @@ void redirection_input(char **str, var_t *var)
     unsigned int i = var->indice + 2;
     unsigned int j = var->indice;
 
-    if ((var->fd = open(str[var->indice + 1], O_RDONLY)) == -1) {
-        var->return_value = 1;
+    if ((var->fd = open(str[var->indice + 1], O_RDONLY)) == -1)
         exit(EXIT_FAILURE);
-    }
     dup2(var->fd, STDIN_FILENO);
     close(var->fd);
     if (str[var->indice + 2] && str[var->indice + 3]
@@ -53,14 +51,12 @@ void env_redirection(char **str, var_t *var)
             overwrite = true;
         if (!str[var->indice + 1]) {
             write(2, "Missing name for redirect.\n", 27);
-            var->return_value = 1;
             exit(EXIT_FAILURE);
         }
         if (!access(str[var->indice + 1], F_OK)
         && access(str[var->indice + 1], W_OK) == -1) {
             write(2, str[var->indice + 1], my_strlen(str[var->indice + 1]));
             write(2, ": Permission denied.\n", 21);
-            var->return_value = 1;
             exit(EXIT_FAILURE);
         }
     }
@@ -85,19 +81,19 @@ void handle_input_redirection(char **str, var_t *var)
     if (var->indice > 0) {
         check_ambiguous_input_redirection(str, var);
         if (!str[var->indice + 1]) {
-            write(2, "Missing name for redirection.\n", 30);
-            var->return_value = 1; exit(EXIT_FAILURE);
+            write(2, "Missing name for redirect.\n", 27);
+            exit(EXIT_FAILURE);
         }
         if (access(str[var->indice + 1], F_OK) == -1) {
             write(2, str[var->indice + 1], my_strlen(str[var->indice + 1]));
             write(2, ": No such file or directory.\n", 29);
-            var->return_value = 1; exit(EXIT_FAILURE);
+            exit(EXIT_FAILURE);
         }
         if (!access(str[var->indice + 1], F_OK)
             && access(str[var->indice + 1], W_OK) == -1) {
             write(2, str[var->indice + 1], my_strlen(str[var->indice + 1]));
             write(2, ": Permission denied.\n", 21);
-            var->return_value = 1; exit(EXIT_FAILURE);
+            exit(EXIT_FAILURE);
         }
         redirection_input(str, var);
     }
