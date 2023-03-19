@@ -15,9 +15,8 @@ void begin_with_redirection(char **str, var_t *var)
         exit(EXIT_FAILURE);
     }
     tmp = str[2];
-    for (unsigned int i = 2; i > 0; i--) {
+    for (unsigned int i = 2; i > 0; i--)
         str[i] = str[i - 1];
-    }
     str[0] = tmp;
 }
 
@@ -46,16 +45,13 @@ void check_error_output_redirection(char **str, var_t *var, bool *overwrite)
 
 void check_ambiguous_input_redirection(char **str, var_t *var)
 {
-    unsigned int i = 0;
     bool found = false;
 
-    i = var->indice + 1;
-    while (str[i]) {
+    for (unsigned int i = var->indice + 1; str[i]; i++) {
         if (!my_strcmp(str[i], "<") || !my_strcmp(str[i], "<<")) {
             found = true;
             break;
         }
-        i++;
     }
     if (found) {
         write(2, "Ambiguous input redirect.\n", 26);
@@ -65,16 +61,13 @@ void check_ambiguous_input_redirection(char **str, var_t *var)
 
 void check_ambiguous_output_redirection(char **str, var_t *var)
 {
-    unsigned int i = 0;
     bool found = false;
 
-    i = var->indice + 1;
-    while (str[i]) {
+    for (unsigned int i = var->indice + 1; str[i]; i++) {
         if (!my_strcmp(str[i], ">") || !my_strcmp(str[i], ">>")) {
             found = true;
             break;
         }
-        i++;
     }
     if (found) {
         write(2, "Ambiguous output redirect.\n", 27);

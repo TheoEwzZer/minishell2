@@ -77,19 +77,19 @@ void handle_output_redirection(char **str, var_t *var)
 
 void handle_input_redirection(char **str, var_t *var)
 {
+    if (get_indice_pipe(str))
+        return;
     var->indice = get_indice_input(str);
     if (var->indice > 0) {
         check_ambiguous_input_redirection(str, var);
         if (!str[var->indice + 1]) {
             write(2, "Missing name for redirect.\n", 27);
             exit(EXIT_FAILURE);
-        }
-        if (access(str[var->indice + 1], F_OK) == -1) {
+        } if (access(str[var->indice + 1], F_OK) == -1) {
             write(2, str[var->indice + 1], my_strlen(str[var->indice + 1]));
             write(2, ": No such file or directory.\n", 29);
             exit(EXIT_FAILURE);
-        }
-        if (!access(str[var->indice + 1], F_OK)
+        } if (!access(str[var->indice + 1], F_OK)
             && access(str[var->indice + 1], W_OK) == -1) {
             write(2, str[var->indice + 1], my_strlen(str[var->indice + 1]));
             write(2, ": Permission denied.\n", 21);
