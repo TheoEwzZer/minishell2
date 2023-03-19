@@ -77,9 +77,8 @@ void handle_pipe(char **str, var_t *var)
     var->indice = get_indice_pipe(str);
     if (var->indice > 0) {
         check_ambiguous_input_redirection(str, var);
-        if (!str[var->indice + 1] || !my_strcmp(str[var->indice + 1], "|")) {
+        if (!str[var->indice + 1] || !my_strcmp(str[var->indice + 1], "|"))
             write(2, "Invalid null command.\n", 22); exit(EXIT_FAILURE);
-        }
         str[var->indice] = NULL;
         execute_first_command(str, var, &status);
         commands = get_commands(var, str);
