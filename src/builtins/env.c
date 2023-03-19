@@ -11,13 +11,13 @@ void builtin_env(char **str, var_t *var)
 {
     int status = 0;
     unsigned int len_cmd = 0;
+
     if (!var->pid) {
-        if (handle_pipe(str, var))
-            exit(EXIT_SUCCESS);
+        handle_pipe(str, var);
         status = execve(var->cmd, str, var->env);
         exit(EXIT_SUCCESS);
     }
-    wait(&status);
+    waitpid(var->pid, &status, 0);
     if (str[1]) {
         env_redirection(str, var);
         free(var->cmd);

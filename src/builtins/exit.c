@@ -55,7 +55,7 @@ void builtin_exit(char **str, var_t *var)
         status = execve(var->cmd, str, var->env);
         exit(EXIT_SUCCESS);
     }
-    wait(&status);
+    waitpid(var->pid, &status, 0);
     chdir(var->cwd);
     if (!str[1]) {
         if (isatty(STDIN_FILENO))

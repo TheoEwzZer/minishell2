@@ -15,8 +15,7 @@ void check_not_found_and_close(char **str, var_t *var)
     if (!var->pid) {
         handle_input_redirection(str, var);
         handle_output_redirection(str, var);
-        if (handle_pipe(str, var))
-            exit(EXIT_SUCCESS);
+        handle_pipe(str, var);
         if ((status = execve(var->cmd, str, var->env)) == -1) {
             try_path(str, var);
             exit(EXIT_FAILURE);

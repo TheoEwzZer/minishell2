@@ -62,8 +62,7 @@ void builtin_cd(char **str, var_t *var)
     char *cwd = 0;
 
     if (!var->pid) {
-        if (handle_pipe(str, var))
-            exit(EXIT_SUCCESS);
+        handle_pipe(str, var);
         status = execve(var->cmd, str, var->env);
         exit(EXIT_SUCCESS);
     }
@@ -71,7 +70,7 @@ void builtin_cd(char **str, var_t *var)
         free(var->old_cwd);
         var->old_cwd = my_strdup(getcwd(NULL, 0));
     }
-    wait(&status);
+    waitpid(var->pid, &status, 0);
     handle_errors(status, var);
     if (str[1])
         handle_errors_cd(str);

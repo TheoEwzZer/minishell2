@@ -25,9 +25,11 @@ void builtin_unsetenv(char **str, var_t *var)
     int status = 0;
 
     if (!var->pid) {
-        status = execve(var->cmd, str, var->env); exit(EXIT_SUCCESS);
+        status = execve(var->cmd, str, var->env);
+        exit(EXIT_SUCCESS);
     }
-    wait(&status); handle_errors(status, var);
+    waitpid(var->pid, &status, 0);
+    handle_errors(status, var);
     if (!str[1]) {
         write(2, "unsetenv: Too few arguments.\n", 29);
         free_var(var);

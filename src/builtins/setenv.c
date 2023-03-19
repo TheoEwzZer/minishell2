@@ -76,7 +76,7 @@ void builtin_setenv(char **str, var_t *var)
     if (!var->pid) {
         status = execve(var->cmd, str, var->env); exit(EXIT_SUCCESS);
     }
-    wait(&status);
+    waitpid(var->pid, &status, 0);
     handle_errors(status, var);
     if (handle_errors_setenv(str, var))
         return;

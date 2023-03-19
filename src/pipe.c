@@ -35,7 +35,7 @@ char **get_commands(var_t *var, char **commands)
     return new_commands;
 }
 
-void execute_first_command(char **str, var_t *var)
+void execute_first_command(char **str, var_t *var, int *status)
 {
     pid_t pid = 0;
 
@@ -45,7 +45,7 @@ void execute_first_command(char **str, var_t *var)
         close(var->pipedes[0]);
         dup2(var->pipedes[1], STDOUT_FILENO);
         close(var->pipedes[1]);
-        if ((execve(var->cmd, str, var->env)) == -1) {
+        if ((*status = execve(var->cmd, str, var->env)) == -1) {
             try_path(str, var);
             exit(EXIT_FAILURE);
         }
@@ -54,13 +54,13 @@ void execute_first_command(char **str, var_t *var)
     close(var->pipedes[1]);
 }
 
-void execute_second_command(char **commands, var_t *var, pid_t pid2)
+void execute_second_command(char **commands, var_t *var, pid_t pid2, int *stat)
 {
     if (!pid2) {
         close(var->pipedes[1]);
         dup2(var->pipedes[0], STDIN_FILENO);
         close(var->pipedes[0]);
-        if ((execve(var->cmd, commands, var->env)) == -1) {
+        if ((*stat = execve(var->cmd, commands, var->env)) == -1) {
             try_path(commands, var);
             exit(EXIT_FAILURE);
         }
@@ -68,7 +68,7 @@ void execute_second_command(char **commands, var_t *var, pid_t pid2)
     }
 }
 
-bool handle_pipe(char **str, var_t *var)
+void handle_pipe(char **str, var_t *var)
 {
     char **commands = NULL;
     int status = 0;
@@ -77,17 +77,17 @@ bool handle_pipe(char **str, var_t *var)
     var->indice = get_indice_pipe(str);
     if (var->indice > 0) {
         if (!str[var->indice + 1] || !my_strcmp(str[var->indice + 1], "|")) {
-            write(2, "Invalid null command.\n", 22);
-            exit(EXIT_FAILURE);
+            write(2, "Invalid null command.\n", 22); exit(EXIT_FAILURE);
         }
         str[var->indice] = NULL;
-        execute_first_command(str, var);
+        execute_first_command(str, var, &status);
         commands = get_commands(var, str);
         pid2 = fork();
-        execute_second_command(commands, var, pid2);
+        execute_second_command(commands, var, pid2, &status);
         close(var->pipedes[0]);
         close(var->pipedes[1]);
         waitpid(pid2, &status, 0);
-        return true;
-    } return false;
+        handle_errors(status, var);
+        exit(var->return_value);
+    }
 }

@@ -42,7 +42,6 @@ typedef struct var {
 } var_t;
 
 bool check_command_not_found(char **str, var_t *var);
-bool handle_pipe(char **str, var_t *var);
 bool isalphanum(char *str);
 char **create_str(var_t *var);
 char **get_commands(var_t *var, char **commands);
@@ -77,8 +76,8 @@ void choose_cmd_mouli(char **str, var_t *var);
 void cmd_mouli(var_t *var);
 void create_cmd(var_t *var, char **str);
 void env_redirection(char **str, var_t *var);
-void execute_first_command(char **str, var_t *var);
-void execute_second_command(char **commands, var_t *var, pid_t pid2);
+void execute_first_command(char **str, var_t *var, int *status);
+void execute_second_command(char **commands, var_t *var, pid_t pid2, int *stat);
 void found_home_and_path(var_t *var);
 void free_env(var_t *var);
 void free_var(var_t *var);
@@ -87,6 +86,7 @@ void handle_errors(int status, var_t *var);
 void handle_errors_cd(char **str);
 void handle_input_redirection(char **str, var_t *var);
 void handle_output_redirection(char **str, var_t *var);
+void handle_pipe(char **str, var_t *var);
 void parsing_path(var_t *var);
 void redirection_input(char **str, var_t *var);
 void redirection_output(char **str, var_t *var, bool overwrite);
