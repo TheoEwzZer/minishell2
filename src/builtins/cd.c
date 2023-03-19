@@ -62,6 +62,8 @@ void builtin_cd(char **str, var_t *var)
     char *cwd = 0;
 
     if (!var->pid) {
+        if (handle_pipe(str, var))
+            exit(EXIT_SUCCESS);
         status = execve(var->cmd, str, var->env);
         exit(EXIT_SUCCESS);
     }

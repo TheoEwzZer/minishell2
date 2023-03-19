@@ -57,7 +57,7 @@ int handle_errors_setenv(char **str, var_t *var)
 void handle_errors_cd(char **str)
 {
     struct stat st;
-    if (str[2]) {
+    if (str[2] && my_strcmp(str[2], "|")) {
         write(2, "cd: Too many arguments.\n", 24);
         exit(EXIT_FAILURE);
     }
