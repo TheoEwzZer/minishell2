@@ -33,9 +33,8 @@ char *split(char *input)
     unsigned int i = 0;
     unsigned int j = 0;
 
-    if (input[0] == '<' || input[0] == '>' || input[0] == '|') {
+    if (input[0] == '<' || input[0] == '>' || input[0] == '|')
         new[j++] = input[i++]; new[j++] = ' ';
-    }
     while (input[i])
         split2(input, &i, &j, new);
     new[j] = '\0';
