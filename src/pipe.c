@@ -57,6 +57,7 @@ void execute_first_command(char **str, var_t *var, int *status)
 void execute_second_command(char **commands, var_t *var, pid_t pid2, int *stat)
 {
     if (!pid2) {
+        create_cmd(var, commands);
         close(var->pipedes[1]);
         dup2(var->pipedes[0], STDIN_FILENO);
         close(var->pipedes[0]);
