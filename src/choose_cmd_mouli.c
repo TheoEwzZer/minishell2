@@ -34,7 +34,8 @@ void choose_cmd_mouli(char **str, var_t *var)
         return;
     }
     if (!my_strcmp(str[0], "env")
-    || (!my_strcmp(str[0], "setenv") && (!str[1] || !my_strcmp(str[1], "|")))) {
+    || (!my_strcmp(str[0], "setenv")
+    && (!str[1] || !my_char_isnum(str[1][0])))) {
         str[0] = my_strdup("env");
         builtin_env(str, var);
         return;
