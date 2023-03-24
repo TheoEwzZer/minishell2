@@ -15,7 +15,7 @@ void begin_with_redirection(char **str, var_t *var)
         exit(EXIT_FAILURE);
     }
     tmp = str[2];
-    for (unsigned int i = 2; i > 0; i--)
+    for (size_t i = 2; i > 0; i--)
         str[i] = str[i - 1];
     str[0] = tmp;
 }
@@ -47,7 +47,7 @@ void check_ambiguous_input_redirection(char **str, var_t *var)
 {
     bool found = false;
 
-    for (unsigned int i = var->indice + 1; str[i]; i++) {
+    for (size_t i = var->indice + 1; str[i]; i++) {
         if (!my_strcmp(str[i], "<") || !my_strcmp(str[i], "<<")) {
             found = true;
             break;
@@ -63,7 +63,7 @@ void check_ambiguous_output_redirection(char **str, var_t *var)
 {
     bool found = false;
 
-    for (unsigned int i = var->indice + 1; str[i]; i++) {
+    for (size_t i = var->indice + 1; str[i]; i++) {
         if (!my_strcmp(str[i], ">") || !my_strcmp(str[i], ">>")) {
             found = true;
             break;

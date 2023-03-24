@@ -6,6 +6,7 @@
 */
 
 #include <stdarg.h>
+#include <stddef.h>
 
 #ifndef MY_H_
 
@@ -20,8 +21,8 @@ char *my_strcat(char *dest, const char *src);
 char *my_strcpy(char *dest, char const *src);
 char *my_strdup(char const *src);
 char *my_strlowcase(char *str);
-char *my_strncat(char *dest, char const *src, int nb);
-char *my_strncpy(char *dest, char const *src, int n);
+char *my_strncat(char *dest, char const *src, size_t size);
+char *my_strncpy(char *dest, char const *src, size_t size);
 char *my_strstr(char *str, char const *to_find);
 char *my_strupcase(char *str);
 int check_end(int end, char *str_tmp);
@@ -59,15 +60,13 @@ int my_str_isprintable(char const *str);
 int my_str_isupper(char const *str);
 int my_strcmp(char const *s1, char const *s2);
 int my_strcmp_ignore_case(char const *s1, char const *s2);
-int my_strncmp(char const *s1, char const *s2, unsigned int n);
+int my_strncmp(char const *s1, char const *s2, size_t size);
 int my_swapstr(char *a, char *b);
 int str_to_int(char *tab, int len, int negative);
 int word_count(const char *str);
-int zero_before(char *array, int count);
-int zero_before_zero(char *array, int count);
 long power10(int len);
-unsigned int my_strlen(char const *str);
-unsigned int my_strlen_double(char *const *str);
+size_t my_strlen(char const *str);
+size_t my_strlen_double(char *const *str);
 void check_separator_lower(int i, char *str);
 void check_separator_upper(int i, char *str);
 void hexa(int i, char *str);

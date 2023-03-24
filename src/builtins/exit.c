@@ -18,7 +18,7 @@ int starts_with_digit_and_has_alnum(char *str)
 
     if (!my_char_isnum(str[0]))
         return EXIT_SUCCESS;
-    for (unsigned int i = 1; str[i]; i++) {
+    for (size_t i = 1; str[i]; i++) {
         if (!my_char_isalpha(str[i]) && !my_char_isnum(str[i]))
             continue;
         if (my_char_isalpha(str[i]))

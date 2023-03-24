@@ -21,13 +21,13 @@ void begin_with_pipe(char **str, var_t *var)
 char **get_commands(var_t *var, char **commands)
 {
     char **new_commands = NULL;
-    unsigned int j = 0;
-    unsigned int num_args = 0;
+    size_t j = 0;
+    size_t num_args = 0;
 
-    for (unsigned int i = var->indice + 1; commands[i]; i++)
+    for (size_t i = var->indice + 1; commands[i]; i++)
         num_args++;
     new_commands = malloc(sizeof(char *) * (num_args + 1));
-    for (unsigned int i = var->indice + 1; commands[i]; i++) {
+    for (size_t i = var->indice + 1; commands[i]; i++) {
         new_commands[j] = my_strdup(commands[i]);
         j++;
     }

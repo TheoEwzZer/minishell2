@@ -28,14 +28,14 @@ void check_not_found_and_close(char **str, var_t *var)
 
 void create_cmd(var_t *var, char **str)
 {
-    unsigned int len_cmd = 0;
+    size_t len_cmd = 0;
 
     if (var->actu_path)
         len_cmd = my_strlen(str[0]) + my_strlen(var->actu_path) + 2;
     else
         len_cmd = my_strlen(str[0]) + 2;
     var->cmd = malloc(sizeof(char) * len_cmd);
-    for (unsigned int i = 0; i < len_cmd; var->cmd[i] = '\0', i++);
+    for (size_t i = 0; i < len_cmd; var->cmd[i] = '\0', i++);
     if (str[0][0] != '.' && str[0][0] != '/') {
         if (var->actu_path)
             var->cmd = my_strcat(var->cmd, var->actu_path);

@@ -33,7 +33,7 @@ void handle_errors(int status, var_t *var)
 
 int handle_errors_setenv(char **str, var_t *var)
 {
-    unsigned int len = my_strlen_double(str);
+    size_t len = my_strlen_double(str);
 
     if (len > 3) {
         write(2, "setenv: Too many arguments.\n", 28);
