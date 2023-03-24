@@ -34,16 +34,16 @@ void handle_errors(int status, var_t *var)
 int handle_errors_setenv(char **str, var_t *var)
 {
     unsigned int len = my_strlen_double(str);
+
     if (len > 3) {
         write(2, "setenv: Too many arguments.\n", 28);
         var->return_value = 1; return EXIT_FAILURE;
-    } if (len == 1) {
-        my_show_word_array(var->env);
-        var->return_value = 0; return EXIT_FAILURE;
-    } if (!my_char_isalpha(str[1][0])) {
+    }
+    if (!my_char_isalpha(str[1][0])) {
         write(2, "setenv: Variable name must begin with a letter.\n", 48);
         var->return_value = 1; return EXIT_FAILURE;
-    } if (!isalphanum(var->input)) {
+    }
+    if (!isalphanum(var->input)) {
         write(
             2,
             "setenv: Variable name must contain alphanumeric characters.\n",
