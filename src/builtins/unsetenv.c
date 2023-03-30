@@ -7,12 +7,12 @@
 
 #include "mysh.h"
 
-void remove_env(char **str, size_t j, var_t *var)
+void remove_env(char **str, unsigned int j, var_t *var)
 {
     bool found = false;
-    size_t len = my_strlen(str[j]);
+    unsigned int len = my_strlen(str[j]);
 
-    for (size_t i = 0; var->env[i]; i++) {
+    for (unsigned int i = 0; var->env[i]; i++) {
         if (!my_strncmp(var->env[i], str[j], len) && var->env[i][len] == '=')
             found = true;
         if (found)
@@ -35,6 +35,6 @@ void builtin_unsetenv(char **str, var_t *var)
         free_var(var);
         exit(EXIT_FAILURE);
     }
-    for (size_t j = 1; str[j]; j++)
+    for (unsigned int j = 1; str[j]; j++)
         remove_env(str, j, var);
 }

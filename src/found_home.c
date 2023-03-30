@@ -12,7 +12,7 @@ void found_home_and_path(var_t *var)
     bool found_home = false;
     bool found_path = false;
 
-    for (size_t i = 0; var->env[i]; i++) {
+    for (unsigned int i = 0; var->env[i]; i++) {
         if (!found_home && !my_strncmp(var->env[i], "USER_ZDOTDIR=", 13)) {
             var->home = my_strdup(var->env[i] + 13);
             found_home = true;

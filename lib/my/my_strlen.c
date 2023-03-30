@@ -6,9 +6,7 @@
 ** found in the string passed as parameter.
 */
 
-#include <stddef.h>
-
-size_t my_strlen(char const *str)
+unsigned int my_strlen(char const *str)
 {
     unsigned int count = 0;
     for (int i = 0; str[i] != '\0'; i++) {
@@ -17,7 +15,7 @@ size_t my_strlen(char const *str)
     return count;
 }
 
-size_t my_strlen_double(char *const *str)
+unsigned int my_strlen_double(char *const *str)
 {
     unsigned int count = 0;
     for (int i = 0; str[i]; i++) {

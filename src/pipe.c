@@ -21,13 +21,13 @@ void begin_with_pipe(char **str, var_t *var)
 char **get_commands(var_t *var, char **commands)
 {
     char **new_commands = NULL;
-    size_t j = 0;
-    size_t num_args = 0;
+    unsigned int j = 0;
+    unsigned int num_args = 0;
 
-    for (size_t i = var->indice + 1; commands[i]; i++)
+    for (unsigned int i = var->indice + 1; commands[i]; i++)
         num_args++;
     new_commands = malloc(sizeof(char *) * (num_args + 1));
-    for (size_t i = var->indice + 1; commands[i]; i++) {
+    for (unsigned int i = var->indice + 1; commands[i]; i++) {
         new_commands[j] = my_strdup(commands[i]);
         j++;
     }
@@ -87,7 +87,7 @@ void handle_pipe(char **str, var_t *var)
         pid2 = fork();
         execute_second_command(commands, var, pid2, &status);
         close(var->pipedes[0]); close(var->pipedes[1]);
-        waitpid(pid2, &status, WCONTINUED | WUNTRACED);
+        waitpid(pid2, &status, 0);
         handle_errors(status, var);
         exit(var->return_value);
     }

@@ -26,16 +26,40 @@ void check_not_found_and_close(char **str, var_t *var)
     handle_errors(status, var);
 }
 
+void choose_cmd_mouli(char **str, var_t *var)
+{
+    if (!my_strcmp(str[0], "cd")) {
+        builtin_cd(str, var);
+        return;
+    } if (!my_strcmp(str[0], "exit")) {
+        builtin_exit(str, var);
+        return;
+    } if (!my_strcmp(str[0], "unsetenv")) {
+        builtin_unsetenv(str, var);
+        return;
+    } if (!my_strcmp(str[0], "setenv")) {
+        builtin_setenv(str, var);
+        return;
+    } if (!my_strcmp(str[0], "env")) {
+        builtin_env(str, var);
+        return;
+    }
+    if (!my_strcmp(str[0], ">") || !my_strcmp(str[0], ">>")
+    || !my_strcmp(str[0], "<") || !my_strcmp(str[0], "<<"))
+        begin_with_redirection(str, var);
+    check_not_found_and_close(str, var);
+}
+
 void create_cmd(var_t *var, char **str)
 {
-    size_t len_cmd = 0;
+    unsigned int len_cmd = 0;
 
     if (var->actu_path)
         len_cmd = my_strlen(str[0]) + my_strlen(var->actu_path) + 2;
     else
         len_cmd = my_strlen(str[0]) + 2;
     var->cmd = malloc(sizeof(char) * len_cmd);
-    for (size_t i = 0; i < len_cmd; var->cmd[i] = '\0', i++);
+    for (unsigned int i = 0; i < len_cmd; var->cmd[i] = '\0', i++);
     if (str[0][0] != '.' && str[0][0] != '/') {
         if (var->actu_path)
             var->cmd = my_strcat(var->cmd, var->actu_path);
@@ -72,6 +96,7 @@ int main(int argc, char **argv, char **env)
 {
     var_t *var = malloc(sizeof(var_t));
 
+    (void)argv;
     check_arg(argc);
     var->return_value = 0;
     var->modify_env = false;

@@ -10,10 +10,10 @@
 void builtin_env(char **str, var_t *var)
 {
     int status = 0;
-    size_t len_cmd = 0;
+    unsigned int len_cmd = 0;
 
     if (!var->pid) {
-        handle_pipe_env(str, var);
+        handle_pipe(str, var);
         status = execve(var->cmd, str, var->env);
         exit(EXIT_SUCCESS);
     }
@@ -23,7 +23,7 @@ void builtin_env(char **str, var_t *var)
         free(var->cmd);
         len_cmd = my_strlen(str[1]) + 6;
         var->cmd = malloc(sizeof(char) * my_strlen(str[1]) + 6);
-        for (size_t i = 0; i < len_cmd; var->cmd[i] = '\0', i++);
+        for (unsigned int i = 0; i < len_cmd; var->cmd[i] = '\0', i++);
         var->cmd = my_strcat(var->cmd, "/bin/");
         var->cmd = my_strcat(var->cmd, str[1]);
     }

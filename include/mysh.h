@@ -38,7 +38,7 @@ typedef struct var {
     int return_value;
     int save_fd;
     pid_t pid;
-    size_t indice;
+    unsigned int indice;
 } var_t;
 
 bool check_command_not_found(char **str, var_t *var);
@@ -53,9 +53,9 @@ char *split(char *input);
 int handle_errors_setenv(char **str, var_t *var);
 int my_char_isalpha(char c);
 int starts_with_digit_and_has_alnum(char *str);
-size_t get_indice_input(char **str);
-size_t get_indice_output(char **str);
-size_t get_indice_pipe(char **str);
+unsigned int get_indice_input(char **str);
+unsigned int get_indice_output(char **str);
+unsigned int get_indice_pipe(char **str);
 void begin_with_pipe(char **str, var_t *var);
 void begin_with_redirection(char **str, var_t *var);
 void builtin_cd(char **str, var_t *var);
@@ -73,7 +73,6 @@ void check_error_output_redirection(char **str, var_t *var, bool *overwrite);
 void check_not_found_and_close(char **str, var_t *var);
 void choose_cmd(char **str, var_t *var);
 void choose_cmd_mouli(char **str, var_t *var);
-void choose_cmd_mouli2(char **str, var_t *var);
 void cmd_mouli(var_t *var);
 void create_cmd(var_t *var, char **str);
 void env_redirection(char **str, var_t *var);
@@ -91,10 +90,10 @@ void handle_pipe(char **str, var_t *var);
 void parsing_path(var_t *var);
 void redirection_input(char **str, var_t *var);
 void redirection_output(char **str, var_t *var, bool overwrite);
-void remove_env(char **str, size_t j, var_t *var);
-void split2(char *input, size_t *i, size_t *j, char *new);
+void remove_env(char **str, unsigned int j, var_t *var);
+void split2(char *input, unsigned int *i, unsigned int *j, char *new);
 void try_path(char **str, var_t *var);
 void wait_cmd(char **env, var_t *var);
-void wait_cmd2(size_t len_cmd, char **str, var_t *var);
+void wait_cmd2(unsigned int len_cmd, char **str, var_t *var);
 
 #endif /* MYSH_H_ */

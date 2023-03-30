@@ -18,7 +18,7 @@ int starts_with_digit_and_has_alnum(char *str)
 
     if (!my_char_isnum(str[0]))
         return EXIT_SUCCESS;
-    for (size_t i = 1; str[i]; i++) {
+    for (unsigned int i = 1; str[i]; i++) {
         if (!my_char_isalpha(str[i]) && !my_char_isnum(str[i]))
             continue;
         if (my_char_isalpha(str[i]))
@@ -36,8 +36,7 @@ void builtin_exit2(char **str, var_t *var)
         free_var(var);
         exit(EXIT_FAILURE);
     }
-    if ((!str[2] || !my_strcmp(str[2], "|"))
-    && (exit_status || !my_strcmp(str[1], "0"))) {
+    if (!str[2] && (exit_status || !my_strcmp(str[1], "0"))) {
         if (isatty(STDIN_FILENO))
             write(1, "exit\n", 5);
         free_var(var);

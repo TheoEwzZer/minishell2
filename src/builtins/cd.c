@@ -10,12 +10,12 @@
 char *create_new_cwd(char *cwd)
 {
     char *new_cwd = NULL;
-    size_t len = my_strlen(cwd) + 5;
+    unsigned int len = my_strlen(cwd) + 5;
 
     new_cwd = malloc(sizeof(char) * len);
     if (!new_cwd)
         return NULL;
-    for (size_t i = 0; i < len; i++)
+    for (unsigned int i = 0; i < len; i++)
         new_cwd[i] = '\0';
     new_cwd = my_strcat(new_cwd, "PWD=");
     new_cwd = my_strcat(new_cwd, cwd);
@@ -41,12 +41,12 @@ void change_cwd(char **str, var_t *var)
 
 char **replace_cwd(char *new_cwd, var_t *var)
 {
-    size_t len = my_strlen_double(var->env);
+    unsigned int len = my_strlen_double(var->env);
     char **str = malloc(sizeof(char *) * (len + 1));
 
     if (!str || !new_cwd)
         return NULL;
-    for (size_t i = 0; var->env[i]; i++) {
+    for (unsigned int i = 0; var->env[i]; i++) {
         if (!my_strncmp(var->env[i], "PWD=", 4))
             str[i] = new_cwd;
         else
