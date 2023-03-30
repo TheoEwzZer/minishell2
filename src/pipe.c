@@ -61,7 +61,9 @@ void execute_second_command(char **commands, var_t *var, pid_t pid2, int *stat)
         close(var->pipedes[1]);
         dup2(var->pipedes[0], STDIN_FILENO);
         close(var->pipedes[0]);
-        if ((*stat = execve(var->cmd, commands, var->env)) == -1) {
+        if (!my_strcmp(commands[0], "cd")) {
+            builtin_cd(commands, var);
+        } else if ((*stat = execve(var->cmd, commands, var->env)) == -1) {
             try_path(commands, var);
             exit(EXIT_FAILURE);
         }
@@ -73,7 +75,7 @@ void handle_pipe(char **str, var_t *var)
 {
     char **commands = NULL;
     int status = 0;
-    pid_t pid2 = 0;
+    pid_t pid = 0;
     var->pipedes = malloc(sizeof(int) * 2);
     var->indice = get_indice_pipe(str);
     if (var->indice > 0) {
@@ -84,10 +86,10 @@ void handle_pipe(char **str, var_t *var)
         str[var->indice] = NULL;
         execute_first_command(str, var, &status);
         commands = get_commands(var, str);
-        pid2 = fork();
-        execute_second_command(commands, var, pid2, &status);
+        pid = fork();
+        execute_second_command(commands, var, pid, &status);
         close(var->pipedes[0]); close(var->pipedes[1]);
-        waitpid(pid2, &status, 0);
+        waitpid(pid, &status, WCONTINUED | WUNTRACED);
         handle_errors(status, var);
         exit(var->return_value);
     }
