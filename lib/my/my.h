@@ -6,6 +6,7 @@
 */
 
 #include <stdarg.h>
+#include <stddef.h>
 
 #ifndef MY_H_
 
@@ -59,7 +60,7 @@ int my_str_isprintable(char const *str);
 int my_str_isupper(char const *str);
 int my_strcmp(char const *s1, char const *s2);
 int my_strcmp_ignore_case(char const *s1, char const *s2);
-int my_strncmp(char const *s1, char const *s2, unsigned int n);
+int my_strncmp(const char *s1, const char *s2, size_t n);
 int my_swapstr(char *a, char *b);
 int str_to_int(char *tab, int len, int negative);
 int word_count(const char *str);

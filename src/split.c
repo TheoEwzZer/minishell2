@@ -7,7 +7,7 @@
 
 #include "mysh.h"
 
-void split2(char *input, unsigned int *i, unsigned int *j, char *new)
+void split2(char *input, size_t *i, size_t *j, char *new)
 {
     if (input[*i] == '<' || input[*i] == '>') {
         new[(*j)++] = ' ';
@@ -30,8 +30,8 @@ void split2(char *input, unsigned int *i, unsigned int *j, char *new)
 char *split(char *input)
 {
     char *new = malloc(strlen(input) * 2 + 1);
-    unsigned int i = 0;
-    unsigned int j = 0;
+    size_t i = 0;
+    size_t j = 0;
 
     if (input[0] == '<' || input[0] == '>' || input[0] == '|') {
         new[j++] = input[i++];

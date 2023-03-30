@@ -7,11 +7,11 @@
 
 #include "mysh.h"
 
-unsigned int get_indice_output(char **str)
+size_t get_indice_output(char **str)
 {
-    unsigned int indice = 0;
+    size_t indice = 0;
 
-    for (unsigned int i = 1; str[i]; i++) {
+    for (size_t i = 1; str[i]; i++) {
         if (!my_strcmp(str[i], ">") || !my_strcmp(str[i], ">>")) {
             indice = i;
             break;
@@ -20,11 +20,11 @@ unsigned int get_indice_output(char **str)
     return indice;
 }
 
-unsigned int get_indice_input(char **str)
+size_t get_indice_input(char **str)
 {
-    unsigned int indice = 0;
+    size_t indice = 0;
 
-    for (unsigned int i = 1; str[i]; i++) {
+    for (size_t i = 1; str[i]; i++) {
         if (!my_strcmp(str[i], "<") || !my_strcmp(str[i], "<<")) {
             indice = i;
             break;
@@ -33,11 +33,11 @@ unsigned int get_indice_input(char **str)
     return indice;
 }
 
-unsigned int get_indice_pipe(char **str)
+size_t get_indice_pipe(char **str)
 {
-    unsigned int indice = 0;
+    size_t indice = 0;
 
-    for (unsigned int i = 1; str[i]; i++) {
+    for (size_t i = 1; str[i]; i++) {
         if (!my_strcmp(str[i], "|")) {
             indice = i;
             break;

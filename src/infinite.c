@@ -10,7 +10,9 @@
 void check(char **str, var_t *var)
 {
     int status = 0;
-
+    var->pid = fork();
+    if (var->pid == -1)
+        exit(1);
     if (!var->pid) {
         if ((status = execve(var->cmd, str, var->env)) == -1)
             try_path(str, var);
@@ -43,34 +45,29 @@ void choose_cmd(char **str, var_t *var)
     } check(str, var);
 }
 
-void wait_cmd2(unsigned int len_cmd, char **str, var_t *var)
+void wait_cmd2(size_t len_cmd, char **str, var_t *var)
 {
-    for (unsigned int i = 0; i < len_cmd; var->cmd[i] = '\0', i++);
+    for (size_t i = 0; i < len_cmd; var->cmd[i] = '\0', i++);
     if (str[0][0] != '.' && str[0][0] != '/') {
         if (var->actu_path)
             var->cmd = my_strcat(var->cmd, var->actu_path);
         var->cmd = my_strcat(var->cmd, "/");
     }
     var->cmd = my_strcat(var->cmd, str[0]);
-    var->pid = fork();
-    if (var->pid == -1) {
-        exit(1);
-    } else {
-        choose_cmd(str, var);
-        free(var->cmd);
-        var->cmd = NULL;
-        free(var->input);
-        var->input = NULL;
-        for (unsigned int i = 0; str[i]; i++)
-            free(str[i]);
-        free(str);
-    }
+    choose_cmd(str, var);
+    free(var->cmd);
+    var->cmd = NULL;
+    free(var->input);
+    var->input = NULL;
+    for (size_t i = 0; str[i]; i++)
+        free(str[i]);
+    free(str);
 }
 
 void wait_cmd(char **env, var_t *var)
 {
     char **str = NULL;
-    unsigned int len_cmd = 0;
+    size_t len_cmd = 0;
     size_t len = 0;
     var->cmd = NULL;
     write(1, "$> ", 3);

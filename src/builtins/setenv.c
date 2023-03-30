@@ -9,13 +9,13 @@
 
 char **my_strdup_double(char **src, char *env_to_set)
 {
-    unsigned int i = 0;
-    unsigned int len = my_strlen_double(src);
+    size_t i = 0;
+    size_t len = my_strlen_double(src);
     char **str = malloc(sizeof(char *) * (unsigned long)(len + 2));
 
     for (i = 0; src[i]; i++)
         str[i] = my_strdup(src[i]);
-    for (unsigned int j = i; j < i + 1; j++)
+    for (size_t j = i; j < i + 1; j++)
         str[j] = env_to_set;
     str[len + 1] = 0;
     return str;
@@ -24,12 +24,12 @@ char **my_strdup_double(char **src, char *env_to_set)
 char *create_new_env(char **str)
 {
     char *new_env = NULL;
-    unsigned int len = 0;
+    size_t len = 0;
 
     if (str[2]) {
         len = my_strlen(str[1]) + 1 + my_strlen(str[2]) + 1;
         new_env = malloc(sizeof(char) * (unsigned long)len);
-        for (unsigned int i = 0; i < len; i++)
+        for (size_t i = 0; i < len; i++)
             new_env[i] = '\0';
         new_env = my_strcat(new_env, str[1]);
         new_env = my_strcat(new_env, "=");
@@ -37,7 +37,7 @@ char *create_new_env(char **str)
     } else {
         len = my_strlen(str[1]) + 1 + 1;
         new_env = malloc(sizeof(char) * (unsigned long)len);
-        for (unsigned int i = 0; i < len; i++)
+        for (size_t i = 0; i < len; i++)
             new_env[i] = '\0';
         new_env = my_strcat(new_env, str[1]);
         new_env = my_strcat(new_env, "=");
@@ -48,7 +48,7 @@ char *create_new_env(char **str)
 bool isalphanum(char *str)
 {
     int space = 0;
-    for (unsigned int i = 0; str[i] && space < 2; i++) {
+    for (size_t i = 0; str[i] && space < 2; i++) {
         if (str[i] == ' ')
             space++;
         if (str[i] > 96 && str[i] < 123)
@@ -78,7 +78,7 @@ void builtin_setenv(char **str, var_t *var)
         return;
     var->modify_env = true;
     new_env = create_new_env(str);
-    for (unsigned int i = 0; var->env[i]; i++) {
+    for (size_t i = 0; var->env[i]; i++) {
         if (!my_strncmp(var->env[i], new_env, my_strlen(str[1]) + 1)) {
             var->env[i] = new_env; found = true;
             found_home_and_path(var);

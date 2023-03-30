@@ -13,7 +13,7 @@ char **create_str(var_t *var)
 
     if (var->input[my_strlen(var->input) - 1] != '\n') {
         char *big = malloc(sizeof(char) * (my_strlen(var->input) + 1));
-        for (unsigned int i = 0; i < my_strlen(var->input) + 1; i++)
+        for (size_t i = 0; i < my_strlen(var->input) + 1; i++)
             big[i] = '\0';
         big = my_strcat(big, var->input);
         big = my_strcat(big, "\n");

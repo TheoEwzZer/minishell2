@@ -23,7 +23,7 @@ void free_var(var_t *var)
 
 void free_env(var_t *var)
 {
-    for (unsigned int i = 0; var->env[i]; i++)
+    for (size_t i = 0; var->env[i]; i++)
         free(var->env[i]);
     free(var->env);
 }
