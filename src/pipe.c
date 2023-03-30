@@ -63,7 +63,9 @@ void execute_second_command(char **commands, var_t *var, pid_t pid2, int *stat)
         close(var->pipedes[0]);
         if (!my_strcmp(commands[0], "cd")) {
             builtin_cd(commands, var);
-        } else if ((*stat = execve(var->cmd, commands, var->env)) == -1) {
+            exit(EXIT_SUCCESS);
+        }
+        if ((*stat = execve(var->cmd, commands, var->env)) == -1) {
             try_path(commands, var);
             exit(EXIT_FAILURE);
         }
