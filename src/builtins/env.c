@@ -9,15 +9,9 @@
 
 void builtin_env(char **str, var_t *var)
 {
-    int status = 0;
     unsigned int len_cmd = 0;
 
-    if (!var->pid) {
-        handle_pipe(str, var);
-        status = execve(var->cmd, str, var->env);
-        exit(EXIT_SUCCESS);
-    }
-    waitpid(var->pid, &status, 0);
+    handle_pipe(str, var);
     if (str[1]) {
         env_redirection(str, var);
         free(var->cmd);

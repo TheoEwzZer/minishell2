@@ -26,30 +26,6 @@ void check_not_found_and_close(char **str, var_t *var)
     handle_errors(status, var);
 }
 
-void choose_cmd_mouli(char **str, var_t *var)
-{
-    if (!my_strcmp(str[0], "cd")) {
-        builtin_cd(str, var);
-        return;
-    } if (!my_strcmp(str[0], "exit")) {
-        builtin_exit(str, var);
-        return;
-    } if (!my_strcmp(str[0], "unsetenv")) {
-        builtin_unsetenv(str, var);
-        return;
-    } if (!my_strcmp(str[0], "setenv")) {
-        builtin_setenv(str, var);
-        return;
-    } if (!my_strcmp(str[0], "env")) {
-        builtin_env(str, var);
-        return;
-    }
-    if (!my_strcmp(str[0], ">") || !my_strcmp(str[0], ">>")
-    || !my_strcmp(str[0], "<") || !my_strcmp(str[0], "<<"))
-        begin_with_redirection(str, var);
-    check_not_found_and_close(str, var);
-}
-
 void create_cmd(var_t *var, char **str)
 {
     unsigned int len_cmd = 0;
@@ -78,11 +54,6 @@ void cmd_mouli(var_t *var)
     var->cmd = NULL;
     if (my_strlen(var->input) <= 1) {
         var->return_value = 0;
-        free(str);
-        return;
-    }
-    if ((var->pid = fork()) == -1) {
-        var->return_value = EXIT_FAILURE;
         free(str);
         return;
     }

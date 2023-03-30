@@ -61,16 +61,11 @@ void builtin_cd(char **str, var_t *var)
     int status = 0;
     char *cwd = 0;
 
-    if (!var->pid) {
-        handle_pipe(str, var);
-        status = execve(var->cmd, str, var->env);
-        exit(EXIT_SUCCESS);
-    }
+    handle_pipe(str, var);
     if (str[1] && my_strcmp(str[1], "-")) {
         free(var->old_cwd);
         var->old_cwd = my_strdup(getcwd(NULL, 0));
     }
-    waitpid(var->pid, &status, 0);
     handle_errors(status, var);
     if (str[1])
         handle_errors_cd(str);
