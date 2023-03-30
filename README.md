@@ -26,7 +26,7 @@ Error output, standard input and standard output redirections will be considered
 - fork, stat, lstat, fstat, open, close, getline, strtok, strtok_r
 - read, write, execve, access, isatty, wait, waitpid
 - wait3, wait4, signal, kill, getpid, strerror, perror, strsignal
-- _pipe_ , _dup_ , _dup_
+- _pipe_ , _dup_ , _dup2_
 
 ## Examples
 
