@@ -13,7 +13,7 @@ void builtin_env(char **str, var_t *var)
     size_t len_cmd = 0;
 
     if (!var->pid) {
-        handle_pipe_env(str, var);
+        handle_pipe(str, var);
         status = execve(var->cmd, str, var->env);
         exit(EXIT_SUCCESS);
     }
