@@ -36,7 +36,8 @@ void builtin_exit2(char **str, var_t *var)
         free_var(var);
         exit(EXIT_FAILURE);
     }
-    if (!str[2] && (exit_status || !my_strcmp(str[1], "0"))) {
+    if ((!str[2] || !my_strcmp(str[2], "|"))
+    && (exit_status || !my_strcmp(str[1], "0"))) {
         if (isatty(STDIN_FILENO))
             write(1, "exit\n", 5);
         free_var(var);

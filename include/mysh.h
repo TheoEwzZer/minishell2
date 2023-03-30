@@ -73,6 +73,7 @@ void check_error_output_redirection(char **str, var_t *var, bool *overwrite);
 void check_not_found_and_close(char **str, var_t *var);
 void choose_cmd(char **str, var_t *var);
 void choose_cmd_mouli(char **str, var_t *var);
+void choose_cmd_mouli2(char **str, var_t *var);
 void cmd_mouli(var_t *var);
 void create_cmd(var_t *var, char **str);
 void env_redirection(char **str, var_t *var);

@@ -87,7 +87,7 @@ void handle_pipe(char **str, var_t *var)
         pid2 = fork();
         execute_second_command(commands, var, pid2, &status);
         close(var->pipedes[0]); close(var->pipedes[1]);
-        waitpid(pid2, &status, 0);
+        waitpid(pid2, &status, WCONTINUED | WUNTRACED);
         handle_errors(status, var);
         exit(var->return_value);
     }
