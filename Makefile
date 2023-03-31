@@ -54,7 +54,10 @@ WARN4	= 	-Wduplicated-cond -Wshadow -Wformat-overflow -Wformat-security \
 			-Wvla-larger-than=65536 -Wformat -Wsuggest-final-methods \
 			-Wsuggest-final-types -Wcast-function-type \
 			-Wmaybe-uninitialized -Wstrict-overflow=4 -Wtrampolines \
-			-Wvector-operation-performance -Walloc-zero
+			-Wvector-operation-performance -Walloc-zero \
+			-Wsuggest-attribute=const -Wsuggest-attribute=noreturn \
+			-Wsuggest-attribute=malloc -Wsuggest-attribute=pure \
+			-Wsuggest-attribute=format
 
 
 
