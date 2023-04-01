@@ -19,7 +19,7 @@ void split2(char *input, size_t *i, size_t *j, char *new)
     }
     if (input[*i] == '|') {
         if (*j > 0 && new[*j - 1] != ' ')
-            new[*j++] = ' ';
+            new[(*j)++] = ' ';
         new[(*j)++] = input[(*i)++];
         new[(*j)++] = ' ';
         return;
