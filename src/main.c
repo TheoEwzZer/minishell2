@@ -16,14 +16,16 @@ void check_not_found_and_close(char **str, var_t *var)
         handle_input_redirection(str, var);
         handle_output_redirection(str, var);
         handle_pipe(str, var);
-        if ((status = execve(var->cmd, str, var->env)) == -1) {
+        status = execve(var->cmd, str, var->env);
+        if (status == -1) {
             try_path(str, var);
             exit(EXIT_FAILURE);
         }
         exit(EXIT_SUCCESS);
+    } else {
+        waitpid(var->pid, &status, WUNTRACED | WCONTINUED);
+        handle_errors(status, var);
     }
-    waitpid(var->pid, &status, 0);
-    handle_errors(status, var);
 }
 
 void create_cmd(var_t *var, char **str)

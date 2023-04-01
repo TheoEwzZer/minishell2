@@ -12,7 +12,8 @@ void redirection_output(char **str, var_t *var, bool overwrite)
     int oflag = O_CREAT | O_WRONLY;
 
     oflag = overwrite ? oflag | O_TRUNC : oflag | O_APPEND;
-    if ((var->fd = open(str[var->indice + 1], oflag, 0644)) == -1) {
+    var->fd = open(str[var->indice + 1], oflag, 0644);
+    if (var->fd == -1) {
         var->return_value = 1;
         return;
     }
@@ -25,7 +26,8 @@ void redirection_input(char **str, var_t *var)
     size_t i = var->indice + 2;
     size_t j = var->indice;
 
-    if ((var->fd = open(str[var->indice + 1], O_RDONLY)) == -1)
+    var->fd = open(str[var->indice + 1], O_RDONLY);
+    if (var->fd == -1)
         exit(EXIT_FAILURE);
     dup2(var->fd, STDIN_FILENO);
     close(var->fd);

@@ -13,7 +13,7 @@ void builtin_env(char **str, var_t *var)
     size_t len_cmd = 0;
 
     handle_pipe_env(str, var);
-    waitpid(var->pid, &status, 0);
+    waitpid(var->pid, &status, WUNTRACED | WCONTINUED);
     if (str[1]) {
         env_redirection(str, var);
         free(var->cmd);

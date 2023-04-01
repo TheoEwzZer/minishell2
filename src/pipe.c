@@ -45,13 +45,15 @@ void execute_first_command(char **str, var_t *var, int *status)
         close(var->pipedes[0]);
         dup2(var->pipedes[1], STDOUT_FILENO);
         close(var->pipedes[1]);
-        if ((*status = execve(var->cmd, str, var->env)) == -1) {
+        *status = execve(var->cmd, str, var->env);
+        if (*status == -1) {
             try_path(str, var);
             exit(EXIT_FAILURE);
         }
         exit(EXIT_SUCCESS);
+    } else {
+        close(var->pipedes[1]);
     }
-    close(var->pipedes[1]);
 }
 
 void execute_second_command(char **commands, var_t *var, pid_t pid2, int *stat)
@@ -65,7 +67,8 @@ void execute_second_command(char **commands, var_t *var, pid_t pid2, int *stat)
             builtin_cd(commands, var);
             exit(EXIT_SUCCESS);
         }
-        if ((*stat = execve(var->cmd, commands, var->env)) == -1) {
+        *stat = execve(var->cmd, commands, var->env);
+        if (*stat == -1) {
             try_path(commands, var);
             exit(EXIT_FAILURE);
         }

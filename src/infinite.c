@@ -12,13 +12,15 @@ void check(char **str, var_t *var)
     int status = 0;
     var->pid = fork();
     if (var->pid == -1)
-        exit(1);
+        exit(EXIT_FAILURE);
     if (!var->pid) {
-        if ((status = execve(var->cmd, str, var->env)) == -1)
+        status = execve(var->cmd, str, var->env);
+        if (status == -1)
             try_path(str, var);
+    } else {
+        waitpid(var->pid, &status, WUNTRACED | WCONTINUED);
+        handle_errors(status, var);
     }
-    wait(&status);
-    handle_errors(status, var);
 }
 
 void choose_cmd(char **str, var_t *var)
@@ -73,7 +75,7 @@ void wait_cmd(char **env, var_t *var)
     write(1, "$> ", 3);
     var->input = NULL;
     if (getline(&var->input, &len, stdin) == -1)
-        exit(1);
+        exit(EXIT_FAILURE);
     if (my_strlen(var->input) <= 1) {
         free(var->input);
         var->input = NULL;
@@ -84,6 +86,6 @@ void wait_cmd(char **env, var_t *var)
     len_cmd = my_strlen(str[0]) + my_strlen(var->actu_path) + 2;
     var->cmd = malloc(sizeof(char) * len_cmd);
     if (!var->cmd)
-        exit(1);
+        exit(EXIT_FAILURE);
     wait_cmd2(len_cmd, str, var);
 }
