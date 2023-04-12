@@ -1,6 +1,6 @@
 # Minishell2
 
-```
+```text
 binary name : mysh
 language : C
 compilation : via Makefile, including re, clean and fclean rules
@@ -16,7 +16,7 @@ The goal of the project is to enrich your _minishell1_ project by adding semicol
 
 The priority management is a key part of this project.
 
-```
+```text
 Error output, standard input and standard output redirections will be considered as bonuses.
 ```
 
@@ -30,8 +30,7 @@ Error output, standard input and standard output redirections will be considered
 
 ## Examples
 
-
-```bash
+```text
 ∼/B-PSU-210> ./mysh
 > ls -l; ls -l | wc -l
 total 4
@@ -41,7 +40,7 @@ drwxr-xr-x 2 johan johan 4096 Mar 17 16:28 tata
 >
 ```
 
-```bash
+```text
 ∼/B-PSU-210> ./mysh
 > mkdir test ; cd test ; ls -a ; ls | cat | wc -c > tutu ; cat tutu
 . ..
