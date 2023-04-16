@@ -30,7 +30,7 @@ Error output, standard input and standard output redirections will be considered
 
 ## Examples
 
-```bash
+```text
 ∼/B-PSU-210> ./mysh
 > ls -l; ls -l | wc -l
 total 4
@@ -40,7 +40,7 @@ drwxr-xr-x 2 johan johan 4096 Mar 17 16:28 tata
 >
 ```
 
-```bash
+```text
 ∼/B-PSU-210> ./mysh
 > mkdir test ; cd test ; ls -a ; ls | cat | wc -c > tutu ; cat tutu
 . ..
@@ -48,9 +48,9 @@ drwxr-xr-x 2 johan johan 4096 Mar 17 16:28 tata
 >
 ```
 
-## FINAL MARK
+## Final Mark
 
-### MARK: 45 / 49 (91.8%)
+### Mark: 45 / 49 (91.8%)
 
 - Basic tests (5 / 5)
 - Path handling (5 / 5)
