@@ -30,7 +30,7 @@ Error output, standard input and standard output redirections will be considered
 
 ## Examples
 
-```text
+```bash
 ∼/B-PSU-210> ./mysh
 > ls -l; ls -l | wc -l
 total 4
@@ -40,10 +40,27 @@ drwxr-xr-x 2 johan johan 4096 Mar 17 16:28 tata
 >
 ```
 
-```text
+```bash
 ∼/B-PSU-210> ./mysh
 > mkdir test ; cd test ; ls -a ; ls | cat | wc -c > tutu ; cat tutu
 . ..
 5
 >
 ```
+
+## FINAL MARK
+
+### MARK: 45 / 49 (91.8%)
+
+- Basic tests (5 / 5)
+- Path handling (5 / 5)
+- Setenv and unsetenv (2 / 2)
+- Builtin cd (3 / 3)
+- Line formatting (space and tabs) (8 / 8)
+- Error handling (3 / 3)
+- Separator (5 / 5)
+- Simple pipe (4 / 4)
+- Simple redirections (2 / 2)
+- Advanced pipe (3 / 7)
+- Advanced redirections (1 / 1)
+- Advanced manipulations (4 / 4)
