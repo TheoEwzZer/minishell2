@@ -11,16 +11,16 @@ void execute_first_command_env(var_t *var)
 {
     pid_t pid = 0;
 
-    pipe(var->pipedes);
+    pipe(var->pipe_descriptor);
     pid = fork();
     if (!pid) {
-        close(var->pipedes[0]);
-        dup2(var->pipedes[1], STDOUT_FILENO);
-        close(var->pipedes[1]);
+        close(var->pipe_descriptor[0]);
+        dup2(var->pipe_descriptor[1], STDOUT_FILENO);
+        close(var->pipe_descriptor[1]);
         my_show_word_array(var->env);
         exit(EXIT_SUCCESS);
     }
-    close(var->pipedes[1]);
+    close(var->pipe_descriptor[1]);
 }
 
 void handle_pipe_env(char **str, var_t *var)
@@ -28,19 +28,19 @@ void handle_pipe_env(char **str, var_t *var)
     char **commands = NULL;
     int status = 0;
     pid_t pid1 = 0, pid2 = 0;
-    var->pipedes = malloc(sizeof(int) * 2);
-    var->indice = get_indice_pipe(str);
-    if (var->indice > 0) {
+    var->pipe_descriptor = malloc(sizeof(int) * 2);
+    var->index = get_index_pipe(str);
+    if (var->index > 0) {
         check_ambiguous_input_redirection(str, var);
-        if (!str[var->indice + 1] || !my_strcmp(str[var->indice + 1], "|")) {
+        if (!str[var->index + 1] || !my_strcmp(str[var->index + 1], "|")) {
             write(2, "Invalid null command.\n", 22); exit(EXIT_FAILURE);
         }
         if (!(pid1 = fork())) {
-            str[var->indice] = NULL;
+            str[var->index] = NULL;
             execute_first_command_env(var);
             commands = get_commands(var, str); pid2 = fork();
             execute_second_command(commands, var, pid2, &status);
-            close(var->pipedes[0]); close(var->pipedes[1]);
+            close(var->pipe_descriptor[0]); close(var->pipe_descriptor[1]);
             waitpid(pid2, &status, WUNTRACED | WCONTINUED);
             handle_errors(status, var); exit(var->return_value);
         }

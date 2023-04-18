@@ -33,12 +33,12 @@ typedef struct var {
     char *old_cwd;
     char *path;
     const char *home;
-    int *pipedes;
+    int *pipe_descriptor;
     int fd;
     int return_value;
     int save_fd;
     pid_t pid;
-    size_t indice;
+    size_t index;
 } var_t;
 
 bool check_command_not_found(char **str, var_t *var);
@@ -53,9 +53,9 @@ char *split(char *input);
 int handle_errors_setenv(char **str, var_t *var);
 int my_char_isalpha(char c);
 int starts_with_digit_and_has_alnum(char *str);
-size_t get_indice_input(char **str);
-size_t get_indice_output(char **str);
-size_t get_indice_pipe(char **str);
+size_t get_index_input(char **str);
+size_t get_index_output(char **str);
+size_t get_index_pipe(char **str);
 void begin_with_pipe(char **str, var_t *var);
 void begin_with_redirection(char **str, var_t *var);
 void builtin_cd(char **str, var_t *var);
